@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -96,6 +97,7 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/appTitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -105,14 +107,14 @@
                 android:textStyle="bold"
                 android:letterSpacing="0.08" />
 
-            <TextView
-                android:id="@+id/sensorStatusText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1-AXIS LATERAL SENSOR"
-                android:textColor="@color/neon_green"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/btnThemeToggle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/btn_reset_bg"
+                android:src="@drawable/ic_theme_sun"
+                android:contentDescription="Toggle Light/Dark Theme"
+                android:padding="6dp" />
         </LinearLayout>
 
         <!-- Big Lean Animation Gauge in the Middle -->
@@ -180,12 +182,6 @@
                     android:textStyle="bold"
                     android:paddingBottom="5dp" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/lateralGText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

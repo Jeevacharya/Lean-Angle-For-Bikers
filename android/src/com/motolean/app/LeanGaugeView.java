@@ -14,6 +14,7 @@ public class LeanGaugeView extends View {
     private float currentLean = 0f;
     private float maxLeft = 0f;
     private float maxRight = 0f;
+    private boolean isLightMode = false;
 
     private Paint trackPaint;
     private Paint arcPaint;
@@ -81,6 +82,20 @@ public class LeanGaugeView extends View {
         peakRightPaint.setColor(Color.parseColor("#00F0FF"));
         peakRightPaint.setStyle(Paint.Style.STROKE);
         peakRightPaint.setStrokeCap(Paint.Cap.ROUND);
+    }
+
+    public void setLightMode(boolean isLight) {
+        this.isLightMode = isLight;
+        if (isLight) {
+            trackPaint.setColor(Color.parseColor("#CBD5E1"));
+            horizonPaint.setColor(Color.parseColor("#94A3B8"));
+            labelPaint.setColor(Color.parseColor("#475569"));
+        } else {
+            trackPaint.setColor(Color.parseColor("#162030"));
+            horizonPaint.setColor(Color.parseColor("#2A3A50"));
+            labelPaint.setColor(Color.parseColor("#8DA2C0"));
+        }
+        invalidate();
     }
 
     public void setLeanAngle(float angle, float maxL, float maxR) {

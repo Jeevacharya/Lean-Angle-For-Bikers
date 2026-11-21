@@ -17,6 +17,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -29,20 +30,24 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Sensor accelSensor;
     private Vibrator vibrator;
 
+    private View rootLayout;
+    private TextView appTitleText;
+    private ImageButton btnThemeToggle;
     private LeanGaugeView leanGaugeView;
     private TextView angleNumberText;
     private TextView signGlyph;
     private TextView directionBadge;
-    private TextView lateralGText;
     private TextView maxLeftText;
     private TextView maxRightText;
-    private TextView sensorStatusText;
 
     private Button btnCalibrate;
     private Button btnCalibrateLeft;
     private Button btnCalibrateRight;
     private Button btnResetMax;
     private Button btnResetMaxLeft;
+
+    // Theme state
+    private boolean isDarkMode = true;
 
     // Calibration & Single-Axis State
     private boolean isCalibrated = false;
@@ -70,7 +75,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-        // Load saved calibration offset
+        // Load saved settings
+        isDarkMode = prefs.getBoolean("is_dark_mode", true);
         isCalibrated = prefs.getBoolean("is_calibrated", false);
         calibratedZeroOffset = prefs.getFloat("calibrated_zero_offset", 0f);
 
@@ -86,14 +92,15 @@ public class MainActivity extends Activity implements SensorEventListener {
     private void initViewBinding() {
         setContentView(R.layout.activity_main);
 
+        rootLayout = findViewById(R.id.rootLayout);
+        appTitleText = findViewById(R.id.appTitleText);
+        btnThemeToggle = findViewById(R.id.btnThemeToggle);
         leanGaugeView = findViewById(R.id.leanGaugeView);
         angleNumberText = findViewById(R.id.angleNumberText);
         signGlyph = findViewById(R.id.signGlyph);
         directionBadge = findViewById(R.id.directionBadge);
-        lateralGText = findViewById(R.id.lateralGText);
         maxLeftText = findViewById(R.id.maxLeftText);
         maxRightText = findViewById(R.id.maxRightText);
-        sensorStatusText = findViewById(R.id.sensorStatusText);
 
         btnCalibrate = findViewById(R.id.btnCalibrate);
         btnCalibrateLeft = findViewById(R.id.btnCalibrateLeft);
@@ -127,7 +134,69 @@ public class MainActivity extends Activity implements SensorEventListener {
         if (btnResetMax != null) btnResetMax.setOnClickListener(resetMaxListener);
         if (btnResetMaxLeft != null) btnResetMaxLeft.setOnClickListener(resetMaxListener);
 
+        // Theme Toggle Click Handler
+        if (btnThemeToggle != null) {
+            btnThemeToggle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isDarkMode = !isDarkMode;
+                    prefs.edit().putBoolean("is_dark_mode", isDarkMode).apply();
+                    applyTheme();
+                    triggerVibrate(25);
+                }
+            });
+        }
+
+        applyTheme();
         updateUI();
+    }
+
+    private void applyTheme() {
+        int bgColor = isDarkMode ? Color.parseColor("#080C14") : Color.parseColor("#EDF2F7");
+        int mainTextColor = isDarkMode ? Color.parseColor("#FFFFFF") : Color.parseColor("#0A1120");
+
+        if (rootLayout != null) {
+            rootLayout.setBackgroundColor(bgColor);
+        }
+
+        if (appTitleText != null) {
+            appTitleText.setTextColor(mainTextColor);
+        }
+
+        if (angleNumberText != null) {
+            angleNumberText.setTextColor(mainTextColor);
+        }
+
+        if (maxLeftText != null) {
+            maxLeftText.setTextColor(mainTextColor);
+        }
+
+        if (maxRightText != null) {
+            maxRightText.setTextColor(mainTextColor);
+        }
+
+        if (btnThemeToggle != null) {
+            btnThemeToggle.setImageResource(isDarkMode ? R.drawable.ic_theme_sun : R.drawable.ic_theme_moon);
+        }
+
+        if (leanGaugeView != null) {
+            leanGaugeView.setLightMode(!isDarkMode);
+        }
+
+        // Status bar & nav bar colors
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(bgColor);
+            getWindow().setNavigationBarColor(bgColor);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = getWindow().getDecorView();
+            if (!isDarkMode) {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decor.setSystemUiVisibility(0);
+            }
+        }
     }
 
     @Override
@@ -142,10 +211,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onResume();
         if (sensorManager != null && accelSensor != null) {
             sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_GAME);
-            if (sensorStatusText != null) {
-                sensorStatusText.setText("1-AXIS LATERAL SENSOR");
-                sensorStatusText.setTextColor(Color.parseColor("#00FF88"));
-            }
         }
     }
 
@@ -258,10 +323,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else if (currentLeanAngleInt > 0) {
             // RIGHT LEAN (+ve)
             signGlyph.setText("+");
-            signGlyph.setTextColor(Color.parseColor("#00F0FF"));
+            signGlyph.setTextColor(isDarkMode ? Color.parseColor("#00F0FF") : Color.parseColor("#0077CC"));
             angleNumberText.setText(String.valueOf(absAngle));
             directionBadge.setText(String.format(Locale.US, "RIGHT LEAN (+%d°)", absAngle));
-            directionBadge.setTextColor(Color.parseColor("#00F0FF"));
+            directionBadge.setTextColor(isDarkMode ? Color.parseColor("#00F0FF") : Color.parseColor("#0077CC"));
         } else {
             // LEFT LEAN (-ve)
             signGlyph.setText("-");
@@ -282,12 +347,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             if (maxLeftText != null) {
                 maxLeftText.setText(String.format(Locale.US, "%d°", maxLeftInt));
             }
-        }
-
-        // Estimated lateral G
-        if (lateralGText != null && lateralGText.getVisibility() == View.VISIBLE) {
-            float latG = (float) Math.tan(Math.toRadians(absAngle));
-            lateralGText.setText(String.format(Locale.US, "EST. LATERAL G: %.2f G", latG));
         }
 
         // Update custom canvas gauge

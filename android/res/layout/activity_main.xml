@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -19,6 +20,7 @@
         android:paddingBottom="8dp">
 
         <TextView
+            android:id="@+id/appTitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,15 +30,15 @@
             android:textStyle="bold"
             android:letterSpacing="0.1" />
 
-        <TextView
-            android:id="@+id/sensorStatusText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SENSOR: ACTIVE"
-            android:textColor="@color/neon_green"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.05" />
+        <!-- Theme Toggle Button (Light / Dark Mode) -->
+        <ImageButton
+            android:id="@+id/btnThemeToggle"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/btn_reset_bg"
+            android:src="@drawable/ic_theme_sun"
+            android:contentDescription="Toggle Light/Dark Theme"
+            android:padding="8dp" />
     </LinearLayout>
 
     <!-- Custom Canvas Gauge (Visual Motorcycle & Arc) -->
@@ -111,15 +113,6 @@
                 android:paddingBottom="6dp" />
         </LinearLayout>
 
-        <!-- Lateral G -->
-        <TextView
-            android:id="@+id/lateralGText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EST. LATERAL G: 0.00 G"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            android:letterSpacing="0.05" />
     </LinearLayout>
 
     <!-- Peak Hold Cards (Max Left & Max Right) -->
