@@ -74,9 +74,6 @@ $finalApk = "MotoLean.apk"
 if (Test-Path $finalApk) { Remove-Item $finalApk -Force }
 & $java -jar $apksignerJar sign --ks $keystore --ks-pass pass:android --ks-key-alias androiddebugkey --key-pass pass:android --out $finalApk "$buildDir\apk\aligned.apk"
 
-# Also copy to public/ folder so user can download it directly from their phone over Wi-Fi!
-Copy-Item $finalApk "public\MotoLean.apk" -Force
-
 $apkSize = (Get-Item $finalApk).Length / 1KB
 Write-Host "`nSUCCESS! Generated APK: $finalApk ($([math]::Round($apkSize, 1)) KB)" -ForegroundColor Green
 Write-Host "===============================================" -ForegroundColor Cyan
