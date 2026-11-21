@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moto Lean</string>
+    <string name="calibrate">CALIBRATE (ZERO)</string>
+    <string name="reset_max">RESET MAX</string>
+    <string name="calibrated_status">✓ Calibrated at 0°</string>
+    <string name="uncalibrated_status">Hold bike upright and tap Calibrate</string>
+    <string name="upright">UPRIGHT (0°)</string>
+    <string name="max_left">MAX LEFT</string>
+    <string name="max_right">MAX RIGHT</string>
+</resources>

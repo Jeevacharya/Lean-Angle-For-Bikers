@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e17"/>
+      <stop offset="50%" stop-color="#121826"/>
+      <stop offset="100%" stop-color="#06090e"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#0077ff"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff0055" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ff5500" stop-opacity="0.8"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded rect -->
+  <rect width="512" height="512" rx="110" fill="url(#bgGrad)"/>
+  <rect width="504" height="504" x="4" y="4" rx="106" fill="none" stroke="#00f0ff" stroke-width="3" stroke-opacity="0.4"/>
+
+  <!-- Gauge Arc Background -->
+  <path d="M 96 360 A 180 180 0 1 1 416 360" fill="none" stroke="#222f44" stroke-width="16" stroke-linecap="round"/>
+  
+  <!-- Right Lean Active Arc (+ve) -->
+  <path d="M 256 180 A 180 180 0 0 1 405 330" fill="none" stroke="#00f0ff" stroke-width="16" stroke-linecap="round" filter="url(#neonGlow)"/>
+
+  <!-- Left Lean Active Arc (-ve) -->
+  <path d="M 107 330 A 180 180 0 0 1 256 180" fill="none" stroke="#ff0055" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Degree Ticks -->
+  <line x1="256" y1="180" x2="256" y2="155" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <line x1="383" y1="233" x2="400" y2="223" stroke="#00f0ff" stroke-width="4" stroke-linecap="round"/>
+  <line x1="129" y1="233" x2="112" y2="223" stroke="#ff0055" stroke-width="4" stroke-linecap="round"/>
+  <line x1="416" y1="360" x2="436" y2="360" stroke="#00f0ff" stroke-width="4" stroke-linecap="round"/>
+  <line x1="96" y1="360" x2="76" y2="360" stroke="#ff0055" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Leaning Motorcycle Silhouette Group tilted at 32 deg -->
+  <g transform="translate(256, 290) rotate(32)">
+    <!-- Rear Tire -->
+    <ellipse cx="-45" cy="40" rx="14" ry="24" fill="#1b2434" stroke="#00f0ff" stroke-width="3"/>
+    <!-- Front Tire -->
+    <ellipse cx="45" cy="40" rx="12" ry="22" fill="#1b2434" stroke="#00f0ff" stroke-width="3"/>
+    
+    <!-- Bike Body Chassis -->
+    <path d="M -45 35 L -20 0 L 15 -10 L 40 10 L 45 35 L 20 25 L -10 28 Z" fill="#0c1017" stroke="#00f0ff" stroke-width="4" stroke-linejoin="round"/>
+    
+    <!-- Rider body & helmet -->
+    <circle cx="5" cy="-42" r="14" fill="#00f0ff" filter="url(#neonGlow)"/>
+    <path d="M -10 -25 C 0 -35, 15 -35, 22 -20 L 15 0 L -15 0 Z" fill="#162233" stroke="#ffffff" stroke-width="2"/>
+    <!-- Handlebars -->
+    <line x1="28" y1="-8" x2="38" y2="-16" stroke="#00f0ff" stroke-width="5" stroke-linecap="round"/>
+    <!-- Knee puck spark / apex contact -->
+    <circle cx="28" cy="46" r="5" fill="#ffaa00" filter="url(#neonGlow)"/>
+  </g>
+
+  <!-- Digital Lean readout pill -->
+  <rect x="146" y="380" width="220" height="64" rx="20" fill="#0d1420" stroke="#00f0ff" stroke-width="2"/>
+  <text x="256" y="424" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="34" fill="#00f0ff" letter-spacing="1">+32.5°</text>
+  
+  <!-- Subtle subtitle -->
+  <text x="256" y="470" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="16" fill="#88a0c0" letter-spacing="3">MOTO LEAN</text>
+</svg>

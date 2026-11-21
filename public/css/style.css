@@ -1,0 +1,1079 @@
+/* Moto Lean Angle App Stylesheet */
+
+:root {
+  --bg-primary: #080c14;
+  --bg-secondary: #101622;
+  --bg-card: rgba(18, 26, 40, 0.85);
+  --border-color: rgba(0, 240, 255, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --text-primary: #ffffff;
+  --text-secondary: #8da2c0;
+  --text-muted: #52637a;
+
+  --neon-cyan: #00f0ff;
+  --neon-green: #00ff88;
+  --neon-red: #ff2a5f;
+  --neon-amber: #ffaa00;
+  --neon-blue: #0088ff;
+
+  --card-radius: 20px;
+  --btn-radius: 16px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
+
+/* Day Mode (High Sunlight Contrast) */
+body.theme-light {
+  --bg-primary: #edf2f7;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --border-color: rgba(0, 100, 200, 0.25);
+  --border-subtle: rgba(0, 0, 0, 0.1);
+  --text-primary: #0a1120;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --neon-cyan: #0077cc;
+  --neon-green: #009944;
+  --neon-red: #d90036;
+  --neon-amber: #d97706;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  touch-action: manipulation;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: env(safe-area-inset-top, 12px) 16px env(safe-area-inset-bottom, 16px) 16px;
+  justify-content: space-between;
+}
+
+/* 1. Telemetry Bar */
+.telemetry-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 4px;
+}
+
+.brand-zone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--neon-cyan);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+}
+
+.brand-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--neon-green);
+}
+
+.quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.pill-btn.active {
+  border-color: rgba(0, 255, 136, 0.4);
+  color: var(--neon-green);
+}
+
+.pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--text-muted);
+}
+
+.pill-btn.active .pill-dot {
+  background-color: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+  color: var(--neon-cyan);
+}
+
+/* 2. Main Gauge Section */
+.gauge-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 250px;
+}
+
+.gauge-container {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.gauge-svg {
+  width: 100%;
+  max-height: 260px;
+  overflow: visible;
+}
+
+/* Arc elements */
+.arc-track {
+  fill: none;
+  stroke: var(--bg-secondary);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+body.theme-dark .arc-track {
+  stroke: #162030;
+}
+
+.arc-fill {
+  fill: none;
+  stroke: var(--neon-cyan);
+  stroke-width: 14;
+  stroke-linecap: round;
+  transition: stroke 0.2s ease;
+}
+
+.scale-tick {
+  stroke: var(--text-muted);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.scale-tick.tick-major {
+  stroke-width: 3.5;
+}
+
+.scale-tick.tick-center {
+  stroke: var(--neon-green);
+  stroke-width: 4;
+}
+
+.scale-label {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.label-center {
+  fill: var(--neon-green);
+}
+
+.label-right {
+  fill: var(--neon-cyan);
+}
+
+.label-left {
+  fill: var(--neon-red);
+}
+
+/* Peak markers */
+.peak-tick {
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.left-peak {
+  stroke: var(--neon-red);
+  filter: drop-shadow(0 0 4px var(--neon-red));
+}
+
+.right-peak {
+  stroke: var(--neon-cyan);
+  filter: drop-shadow(0 0 4px var(--neon-cyan));
+}
+
+/* Tilting bike & horizon */
+.horizon-line {
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+.ground-arch {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 2;
+}
+
+.tire-contact {
+  fill: #0c121d;
+  stroke: var(--neon-cyan);
+  stroke-width: 2;
+}
+
+.tire-tread {
+  fill: #111a28;
+  stroke: #25334a;
+  stroke-width: 1.5;
+}
+
+.fork-tube {
+  stroke: #6b829e;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.triple-clamp {
+  fill: #222d3e;
+  stroke: #485c75;
+  stroke-width: 1.5;
+}
+
+.handlebar-bar {
+  stroke: #a0b5ce;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.bar-end {
+  fill: var(--neon-cyan);
+}
+
+.bike-fairing {
+  fill: #141c2b;
+  stroke: var(--neon-cyan);
+  stroke-width: 2.5;
+}
+
+.headlight-glow {
+  fill: var(--neon-cyan);
+  opacity: 0.9;
+}
+
+.windscreen {
+  fill: rgba(0, 240, 255, 0.35);
+  stroke: var(--neon-cyan);
+  stroke-width: 1.5;
+}
+
+.rider-helmet {
+  fill: #1b263b;
+  stroke: var(--text-primary);
+  stroke-width: 2.5;
+}
+
+.helmet-visor {
+  fill: none;
+  stroke: var(--neon-amber);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+
+.needle-pointer {
+  fill: var(--neon-cyan);
+  filter: drop-shadow(0 0 4px var(--neon-cyan));
+}
+
+/* 3. Central Digital Readout Card */
+.readout-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -10px;
+  width: 100%;
+}
+
+.direction-badge {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 4px 14px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--neon-green);
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.direction-badge.right {
+  color: var(--neon-cyan);
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+.direction-badge.left {
+  color: var(--neon-red);
+  border-color: rgba(255, 42, 95, 0.4);
+  box-shadow: 0 0 12px rgba(255, 42, 95, 0.2);
+}
+
+.angle-value-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin: 6px 0;
+}
+
+.sign-glyph {
+  font-size: 3.2rem;
+  font-weight: 900;
+  width: 38px;
+  text-align: right;
+  color: var(--neon-cyan);
+  transition: color 0.15s ease;
+}
+
+.sign-glyph.left {
+  color: var(--neon-red);
+}
+
+.sign-glyph.neutral {
+  color: var(--neon-green);
+}
+
+.angle-number {
+  font-size: 5.6rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: var(--text-primary);
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.unit-deg {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.g-force-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.telemetry-label {
+  color: var(--text-muted);
+}
+
+.telemetry-val {
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+/* 4. Peak Hold Cards Row */
+.peaks-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 12px 0 16px 0;
+}
+
+.peak-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.15s ease;
+}
+
+.peak-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.left-card {
+  border-left: 3px solid var(--neon-red);
+}
+
+.left-card .peak-header,
+.left-card .direction-arrow {
+  color: var(--neon-red);
+}
+
+.right-card {
+  border-right: 3px solid var(--neon-cyan);
+}
+
+.right-card .peak-header,
+.right-card .direction-arrow {
+  color: var(--neon-cyan);
+}
+
+.peak-value {
+  font-size: 1.85rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  margin: 4px 0 6px 0;
+  color: var(--text-primary);
+}
+
+.peak-bar-track {
+  width: 100%;
+  height: 5px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.peak-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.25s ease-out;
+}
+
+.left-fill {
+  background: linear-gradient(90deg, #ff5500, var(--neon-red));
+}
+
+.right-fill {
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+}
+
+.reset-peaks-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 66px;
+  height: 72px;
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.reset-peaks-btn:active {
+  transform: scale(0.92);
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+}
+
+/* 5. HERO CALIBRATION BUTTON (The key requested feature!) */
+.calibration-hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.calib-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+}
+
+.calib-banner.calibrated {
+  border-style: solid;
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(0, 255, 136, 0.06);
+}
+
+.calib-status-icon {
+  font-size: 1.4rem;
+  color: var(--neon-amber);
+}
+
+.calib-banner.calibrated .calib-status-icon {
+  color: var(--neon-green);
+}
+
+.calib-status-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.calib-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--neon-amber);
+}
+
+.calib-banner.calibrated .calib-title {
+  color: var(--neon-green);
+}
+
+.calib-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* THE GIANT HERO CALIBRATE BUTTON */
+.hero-calibrate-btn {
+  position: relative;
+  width: 100%;
+  height: 74px;
+  border-radius: var(--btn-radius);
+  background: linear-gradient(135deg, #0d1e33 0%, #082845 50%, #004d73 100%);
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 6px 24px rgba(0, 240, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+}
+
+.hero-calibrate-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(0, 240, 255, 0.4);
+  background: linear-gradient(135deg, #053b5c 0%, #00f0ff 100%);
+}
+
+.calib-btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+}
+
+.calib-btn-text {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.calib-secondary-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 4px;
+}
+
+.text-link-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.text-link-btn:active {
+  color: var(--text-primary);
+}
+
+.text-link-btn.highlight {
+  color: var(--neon-cyan);
+}
+
+/* 6. Simulation Drawer */
+.simulator-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-top: 2px solid var(--neon-cyan);
+  border-radius: 24px 24px 0 0;
+  padding: 20px 20px 30px 20px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.simulator-drawer.hidden {
+  transform: translateY(105%);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.drawer-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--neon-cyan);
+  letter-spacing: 1px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.sim-help {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.slider-control {
+  margin-bottom: 14px;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+#sliderAngleDisplay {
+  color: var(--neon-cyan);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+#simLeanSlider {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #1e293b;
+  outline: none;
+  accent-color: var(--neon-cyan);
+}
+
+.sim-quick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.sim-chip {
+  flex: 1 1 calc(25% - 6px);
+  padding: 8px 4px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sim-chip.active {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.1);
+}
+
+.sim-actions-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--neon-cyan);
+  border: none;
+  color: #06090e;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+/* 7. Settings Modal & iOS Modal */
+.settings-modal,
+.permission-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.settings-modal.hidden,
+.permission-modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content,
+.modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.setting-group {
+  margin-bottom: 22px;
+}
+
+.setting-title {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.mount-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.opt-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.opt-btn.active {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--neon-cyan);
+}
+
+.opt-icon {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.opt-name {
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.opt-desc {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.chip-group {
+  display: flex;
+  gap: 8px;
+}
+
+.chip-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chip-btn.active {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.1);
+}
+
+.setting-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.tips-list {
+  list-style: none;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.tips-list strong {
+  color: var(--neon-cyan);
+}
+
+.modal-box {
+  text-align: center;
+}
+
+.modal-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.modal-box h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.modal-box p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.btn-large {
+  font-size: 1.1rem;
+  padding: 16px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.calib-buttons-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.landscape-only {
+  display: none !important;
+}
+
+.dual-calib-btn {
+  flex: 1;
+  height: 64px;
+}
+
+.dual-calib-btn .calib-btn-text {
+  font-size: 1.15rem;
+  letter-spacing: 1.5px;
+}
+
+/* Landscape Mode Responsive Adaptations */
+@media (orientation: landscape) and (max-height: 540px) {
+  .app-wrapper {
+    max-width: 960px;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1.1fr 2.2fr 1.1fr;
+    grid-template-rows: auto 1fr;
+    gap: 8px;
+    padding: 6px 12px;
+    overflow: hidden;
+  }
+
+  .telemetry-bar {
+    grid-column: 1 / -1;
+    height: 36px;
+  }
+
+  .gauge-section {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .gauge-container {
+    max-width: 320px;
+  }
+
+  .gauge-svg {
+    max-height: 175px;
+  }
+
+  .angle-number {
+    font-size: 4.2rem;
+  }
+
+  .sign-glyph {
+    font-size: 2.8rem;
+  }
+
+  .peaks-section {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .calibration-hero-section {
+    grid-column: 3;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .calib-banner {
+    display: none;
+  }
+
+  .landscape-only {
+    display: flex !important;
+  }
+
+  .dual-calib-btn {
+    height: 52px;
+  }
+
+  .calib-buttons-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .calib-secondary-actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

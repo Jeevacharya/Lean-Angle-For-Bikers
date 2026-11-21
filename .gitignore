@@ -1,0 +1,13 @@
+# Build artifacts
+android/build/
+*.idsig
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Node dependencies (if any)
+node_modules/

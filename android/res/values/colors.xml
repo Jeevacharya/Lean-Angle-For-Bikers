@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_primary">#080C14</color>
+    <color name="bg_card">#121A28</color>
+    <color name="neon_cyan">#00F0FF</color>
+    <color name="neon_red">#FF2A5F</color>
+    <color name="neon_green">#00FF88</color>
+    <color name="neon_amber">#FFAA00</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_secondary">#8DA2C0</color>
+    <color name="text_muted">#4A5A72</color>
+    <color name="calib_btn_bg">#0A2D4A</color>
+</resources>

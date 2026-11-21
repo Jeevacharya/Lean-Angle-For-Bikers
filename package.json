@@ -1,0 +1,13 @@
+{
+  "name": "moto-lean-angle",
+  "version": "1.0.0",
+  "description": "Motorcycle Lean Angle App for Smartphones with Zero Calibration and Left/Right tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["motorcycle", "lean-angle", "biker", "sensors", "pwa"],
+  "author": "",
+  "license": "MIT"
+}
