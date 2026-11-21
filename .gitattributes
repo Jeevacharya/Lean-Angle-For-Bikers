@@ -1,0 +1,3 @@
+# Ignore build script from language breakdown so repo shows Java 100%
+build-apk.ps1 linguist-vendored
+*.apk binary
